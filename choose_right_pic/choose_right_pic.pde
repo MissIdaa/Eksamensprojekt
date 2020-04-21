@@ -1,9 +1,11 @@
-
 PImage startbg;
 PImage spilbg;
 ArrayList<runde> runder;
 int currRound;
 int cd = 180;
+Boolean Spil1 = false;
+Boolean Spil2 = false;
+Boolean Start = true; 
 
 void setup() {
   fullScreen();
@@ -19,19 +21,58 @@ void setup() {
 }
 
 void draw() {
-  if (cd == 0) {            
+  if (Spil1) {
+    background(spilbg);
+    if (cd == 0) {            
     currRound = currRound % runder.size() + 1;
     cd = 180;
-  }
-  background(spilbg);
+    }
   println(currRound);
   for (runde r : runder) {
     if (r.rno == currRound) {
       r.render();
       if (r.point) {
         cd -= 1;
+        }
       }
     }
+  }
+    if (Spil2) {
+    background(spilbg);
+    text("Spil 2", 800, 200);
+    }
+    if (Start) {
+    background(startbg);
+    fill(255);
+    textMode(CENTER); 
+    textSize(48);
+    text("Hej med dig, hvilket spil vil du gerne spille?", 450, 200);
+    textSize(36);
+    text("Venstre piletast for spil 1, højre for spil 2", 570, 275);
+    fill(255);
+    textSize(80);
+    text("Spil 1", 530, 610);
+    text("Spil 2", 1180, 610);
+  }
+}
+
+void keyPressed() {
+  if (Start) {
+    if (keyCode==LEFT) {
+      Spil1 = true;
+      Start = false;
+    }
+  }
+  if (Start) {
+    if (keyCode==RIGHT) {
+      Spil2 = true;
+      Start = false;
+    }
+  }
+  if (keyCode==' ') {
+    Spil1 = false; 
+    Spil2 = false;
+    Start = true;
   }
 }
 
