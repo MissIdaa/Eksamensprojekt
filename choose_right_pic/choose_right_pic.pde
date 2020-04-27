@@ -44,7 +44,7 @@ void draw() {
     if (Start) {
     background(startbg);
     fill(255);
-    textMode(CENTER); 
+    textMode(CENTER);
     textSize(48);
     text("Hej med dig, hvilket spil vil du gerne spille?", 450, 200);
     textSize(36);
