@@ -29,7 +29,7 @@ void draw() {
     file.play();
     background(spilbg);
     fill(0);
-    text(score, 30, 20); // Display af score // Den tæller opad så længe der står rigtigt
+    text(score, width/2-100, 20); // Display af score // Den tæller opad så længe der står rigtigt
     text("ud af 4", width/2+20, 20);
     if (cd == 0) {            
       currRound = currRound % runder.size() + 1;
