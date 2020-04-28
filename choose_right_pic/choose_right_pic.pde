@@ -15,7 +15,6 @@ AudioPlayer file;
 void setup() {
   minim =  new Minim(this);
   fullScreen();
-  file = minim.loadFile( "klokkelyd.mp3");
   runder = new ArrayList<runde>();
   runder.add(new runde(1, "Hvilket ord lyder anderledes?"));
   runder.add(new runde(2, "Hvilket ord lyder anderledes?"));

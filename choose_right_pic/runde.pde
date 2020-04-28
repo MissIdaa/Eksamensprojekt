@@ -12,6 +12,7 @@ class runde {
     picf1 = loadImage(str(rno)+"f1.png");
     picf2 = loadImage(str(rno)+"f2.png");
     picc = loadImage(str(rno)+"c.png");
+    file = minim.loadFile( "klokkelyd.mp3");
     order.append(1);
     order.append(2);
     order.append(3);
