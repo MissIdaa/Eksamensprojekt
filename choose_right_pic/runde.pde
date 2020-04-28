@@ -33,6 +33,7 @@ class runde {
     noStroke();
     fill(220, 220, 220, 100);
     if (mouseX < width/3) {
+      file.play();
       rect(0, 0, width/3, height);
     } else if (mouseX < 2*width/3) {
       rect(width/3, 0, width/3, height);
@@ -49,7 +50,7 @@ class runde {
       text(otext, width/2, height/4);
     }
   }
-    
+
 
   int hoverChoice() {
     int returnno = 1000;
