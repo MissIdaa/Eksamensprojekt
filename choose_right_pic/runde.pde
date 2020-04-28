@@ -4,14 +4,12 @@ class runde {
   PImage picf1, picf2, picc;
   IntList order = new IntList();
   boolean point = false;
-  import ddf.minim.*;
-  Minim minim;
   AudioPlayer filef1, filef2, filec;
   IntList player = new IntList();
 
 
-  runde(int no, String opgavetext) {
-    minim =  new Minim(this);
+  runde(int no, String opgavetext,PApplet p) {
+    minim = new Minim(p);
     rno = no;
     otext = opgavetext;
     picf1 = loadImage(str(rno)+"f1.png");
@@ -90,4 +88,3 @@ class runde {
     }
   }
 }
-// Vi ved ikke lige hvad der sker med den linje herunder....

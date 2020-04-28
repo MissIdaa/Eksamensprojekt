@@ -1,5 +1,7 @@
 PImage startbg;
 PImage spilbg;
+import ddf.minim.*;
+Minim minim;
 ArrayList<runde> runder;
 int currRound;
 int cd = 180;
@@ -10,12 +12,12 @@ int score = 0;
 boolean point = false;
 
 void setup() {
-  fullScreen();
+  fullScreen(P2D);
   runder = new ArrayList<runde>();
-  runder.add(new runde(1, "Hvilket ord lyder anderledes?"));
-  runder.add(new runde(2, "Hvilket ord lyder anderledes?"));
-  runder.add(new runde(3, "Hvilket ord lyder anderledes?"));
-  runder.add(new runde(4, "Hvilket ord lyder anderledes?"));
+  runder.add(new runde(1, "Hvilket ord lyder anderledes?", this));
+  runder.add(new runde(2, "Hvilket ord lyder anderledes?", this));
+  runder.add(new runde(3, "Hvilket ord lyder anderledes?", this));
+  runder.add(new runde(4, "Hvilket ord lyder anderledes?", this));
   currRound = round(random(1, 2));
   startbg = loadImage ("Startbaggrund.png");
   spilbg = loadImage ("Spilbaggrund.png");
@@ -38,6 +40,7 @@ void draw() {
         if (r.point) {
           cd -= 1;
         }
+        r.sound();
       }
     }
   }
