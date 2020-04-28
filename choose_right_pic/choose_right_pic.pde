@@ -8,12 +8,8 @@ Boolean Spil2 = false;
 Boolean Start = true; 
 int score = 0;
 boolean point = false;
-import ddf.minim.*;
-Minim minim;
-AudioPlayer file;
 
 void setup() {
-  minim =  new Minim(this);
   fullScreen();
   runder = new ArrayList<runde>();
   runder.add(new runde(1, "Hvilket ord lyder anderledes?"));

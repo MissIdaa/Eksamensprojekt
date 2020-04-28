@@ -4,19 +4,32 @@ class runde {
   PImage picf1, picf2, picc;
   IntList order = new IntList();
   boolean point = false;
+  import ddf.minim.*;
+  Minim minim;
+  AudioPlayer filef1, filef2, filec;
+  IntList player = new IntList();
 
 
   runde(int no, String opgavetext) {
+    minim =  new Minim(this);
     rno = no;
     otext = opgavetext;
     picf1 = loadImage(str(rno)+"f1.png");
     picf2 = loadImage(str(rno)+"f2.png");
     picc = loadImage(str(rno)+"c.png");
-    file = minim.loadFile( "klokkelyd.mp3");
+    
     order.append(1);
     order.append(2);
     order.append(3);
     order.shuffle();
+    
+    filef1 = minim.loadFile(str(rno)+"f1.mp3");
+    filef2 = minim.loadFile(str(rno)+"f2.mp3");
+    filec = minim.loadFile(str(rno)+"c.mp3");
+    player.append(1);
+    player.append(2);
+    player.append(3);
+    player.shuffle();
   }
 
   void render() {
@@ -34,7 +47,6 @@ class runde {
     noStroke();
     fill(220, 220, 220, 100);
     if (mouseX < width/3) {
-      file.play();
       rect(0, 0, width/3, height);
     } else if (mouseX < 2*width/3) {
       rect(width/3, 0, width/3, height);
@@ -62,6 +74,20 @@ class runde {
     } else {
       returnno = order.get(2);
     }
-    return returnno;
+     return returnno;
+  }
+  void sound() {
+    for (int i=0; i<player.size(); i++) {
+      if (player.get(i) == 1) {
+        filef1.play(); // Vi er i tvivl om hvordan vi får den konkete lyd afspillet
+      } else if (player.get(i) == 2) {
+        delay(1000);
+        filef2.play();
+      } else if (player.get(i) == 3) {
+        delay(1000);
+        filec.play();
+      }
+    }
   }
 }
+// Vi ved ikke lige hvad der sker med den linje herunder....
