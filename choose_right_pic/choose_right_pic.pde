@@ -6,6 +6,8 @@ int cd = 180;
 Boolean Spil1 = false;
 Boolean Spil2 = false;
 Boolean Start = true; 
+int score = 0;
+boolean point = false;
 
 void setup() {
   fullScreen();
@@ -17,31 +19,32 @@ void setup() {
   currRound = round(random(1, 2));
   startbg = loadImage ("Startbaggrund.png");
   spilbg = loadImage ("Spilbaggrund.png");
-  
 }
 
 void draw() {
   if (Spil1) {
     background(spilbg);
+    fill(0);
+    text(score, 30, 20); // Display af score // Den tæller opad så længe der står rigtigt
     if (cd == 0) {            
-    currRound = currRound % runder.size() + 1;
-    cd = 180;
+      currRound = currRound % runder.size() + 1;
+      cd = 180;
     }
-  println(currRound);
-  for (runde r : runder) {
-    if (r.rno == currRound) {
-      r.render();
-      if (r.point) {
-        cd -= 1;
+    println(currRound);
+    for (runde r : runder) {
+      if (r.rno == currRound) {
+        r.render();
+        if (r.point) {
+          cd -= 1;
         }
       }
     }
   }
-    if (Spil2) {
+  if (Spil2) {
     background(spilbg);
     text("Spil 2", 800, 200);
-    }
-    if (Start) {
+  }
+  if (Start) {
     background(startbg);
     fill(255);
     textMode(CENTER);
@@ -81,6 +84,7 @@ void mouseClicked() {
     if (r.rno == currRound) {
       if (r.hoverChoice() == 3) {
         r.point = true;
+        score++;
       }
     }
   }

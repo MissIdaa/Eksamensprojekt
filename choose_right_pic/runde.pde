@@ -4,7 +4,7 @@ class runde {
   PImage picf1, picf2, picc;
   IntList order = new IntList();
   boolean point = false;
-  int score = 0;
+
 
   runde(int no, String opgavetext) {
     rno = no;
@@ -31,27 +31,26 @@ class runde {
       }
     }
     noStroke();
-    fill(220,220,220,100);
+    fill(220, 220, 220, 100);
     if (mouseX < width/3) {
-      rect(0,0,width/3,height);
+      rect(0, 0, width/3, height);
     } else if (mouseX < 2*width/3) {
-      rect(width/3,0,width/3,height);
+      rect(width/3, 0, width/3, height);
     } else if (mouseX > 2*width/3) {
-      rect(2*width/3,0,width/3,height);
+      rect(2*width/3, 0, width/3, height);
     }
-    
-    textAlign(CENTER,CENTER);
+
+    textAlign(CENTER, CENTER);
     textSize(50);
     fill(0);
     if (point==true) {
-      text("RIGTIGT!",width/2,height/4);
-      score++;
+      text("RIGTIGT!", width/2, height/4);
     } else {
-      text(otext,width/2,height/4);
+      text(otext, width/2, height/4);
     }
-    text(currRound-2+score/100, 30, 20); // Display af score // Den tæller opad så længe der står rigtigt
   }
-  
+    
+
   int hoverChoice() {
     int returnno = 1000;
     if (mouseX < width/3) {
