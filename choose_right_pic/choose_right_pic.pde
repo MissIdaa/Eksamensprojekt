@@ -8,9 +8,12 @@ Boolean Spil2 = false;
 Boolean Start = true; 
 int score = 0;
 boolean point = false;
+import processing.sound.*;
+SoundFile file;
 
 void setup() {
   fullScreen();
+  file = new SoundFile(this, "klokkelyd.mp3");
   runder = new ArrayList<runde>();
   runder.add(new runde(1, "Hvilket ord lyder anderledes?"));
   runder.add(new runde(2, "Hvilket ord lyder anderledes?"));
@@ -23,9 +26,11 @@ void setup() {
 
 void draw() {
   if (Spil1) {
+    file.play();
     background(spilbg);
     fill(0);
     text(score, 30, 20); // Display af score // Den tæller opad så længe der står rigtigt
+    text("ud af 4", width/2+20, 20);
     if (cd == 0) {            
       currRound = currRound % runder.size() + 1;
       cd = 180;
