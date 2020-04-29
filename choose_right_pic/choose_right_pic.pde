@@ -40,7 +40,6 @@ void draw() {
         if (r.point) {
           cd -= 1;
         }
-        r.sound();
       }
     }
   }

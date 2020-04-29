@@ -30,6 +30,7 @@ class runde {
     filef1 = minim.loadFile(str(rno)+"f1.mp3");
     filef2 = minim.loadFile(str(rno)+"f2.mp3");
     filec = minim.loadFile(str(rno)+"c.mp3");
+    
     player.append(1);
     player.append(2);
     player.append(3);
@@ -40,13 +41,17 @@ class runde {
     for (int i=0; i<order.size(); i++) {
       float posx = 165 + i*width/3;
       float posy = height/2;
-      if (order.get(i) == 1) {
+      if (order.get(i) == 1 && millis() >= previous + 1000) {
         image(picf1, posx, posy);
-      } else if (order.get(i) == 2) {
+        filef1.play();
+      } else if (order.get(i) == 2 && millis() >= previous1 + 6000) {
         image(picf2, posx, posy);
-      } else if (order.get(i) == 3) {
+        filef2.play();
+      } else if (order.get(i) == 3 && millis() >= previous2 + 8000) {
         image(picc, posx, posy);
+        filec.play();
       }
+ //     sound();
     }
     noStroke();
     fill(220, 220, 220, 100);
@@ -80,7 +85,7 @@ class runde {
     }
     return returnno;
   }
-  void sound() {
+/*  void sound() {
     for (int i=0; i<player.size(); i++) {
       if (player.get(i) == 1 && millis() >= previous + 1000) {
         filef1.play();
@@ -89,8 +94,8 @@ class runde {
       } else if (player.get(i) == 3 && millis() >= previous2 + 8000) {
         filec.play();
       }
-    }
-  }
+    } 
+  } */
 }
 
 /* if(soundA.isPlaying() == false && soundA.position() > 1 && soundB.isPlaying() == false){
