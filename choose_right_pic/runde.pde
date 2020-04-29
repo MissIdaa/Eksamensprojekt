@@ -6,21 +6,27 @@ class runde {
   boolean point = false;
   AudioPlayer filef1, filef2, filec;
   IntList player = new IntList();
+  long previous = 0;
+  long previous1 = 0;
+  long previous2 = 0;
 
 
-  runde(int no, String opgavetext,PApplet p) {
+  runde(int no, String opgavetext, PApplet p) {
+    previous = millis();
+    previous1 = millis();
+    previous2 = millis();
     minim = new Minim(p);
     rno = no;
     otext = opgavetext;
     picf1 = loadImage(str(rno)+"f1.png");
     picf2 = loadImage(str(rno)+"f2.png");
     picc = loadImage(str(rno)+"c.png");
-    
+
     order.append(1);
     order.append(2);
     order.append(3);
     order.shuffle();
-    
+
     filef1 = minim.loadFile(str(rno)+"f1.mp3");
     filef2 = minim.loadFile(str(rno)+"f2.mp3");
     filec = minim.loadFile(str(rno)+"c.mp3");
@@ -72,19 +78,22 @@ class runde {
     } else {
       returnno = order.get(2);
     }
-     return returnno;
+    return returnno;
   }
   void sound() {
     for (int i=0; i<player.size(); i++) {
-      if (player.get(i) == 1) {
-        filef1.play(); // Vi er i tvivl om hvordan vi får den konkete lyd afspillet
-      } else if (player.get(i) == 2) {
-        delay(1000);
+      if (player.get(i) == 1 && millis() >= previous + 1000) {
+        filef1.play();
+      } else if (player.get(i) == 2 && millis() >= previous1 + 6000) {
         filef2.play();
-      } else if (player.get(i) == 3) {
-        delay(1000);
+      } else if (player.get(i) == 3 && millis() >= previous2 + 8000) {
         filec.play();
       }
     }
   }
 }
+
+/* if(soundA.isPlaying() == false && soundA.position() > 1 && soundB.isPlaying() == false){
+ soundB.play();
+ }
+ */
