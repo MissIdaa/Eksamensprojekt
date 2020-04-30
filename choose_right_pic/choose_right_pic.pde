@@ -12,8 +12,18 @@ int score = 0;
 boolean point = false;
 AudioPlayer start_hej;
 
+import processing.serial.*;
+
+Serial myPort;
+String dataWemos = "Intet endnu";
+String kortNum = "Intet endnu";
+int kortNumTid = 0;
+
 void setup() {
   fullScreen(P2D);
+  String portName = Serial.list() [0];
+  //println("Proever: " + portName);
+  myPort = new Serial(this, portName, 115200);
   minim = new Minim(this);
   runder = new ArrayList<runde>();
   runder.add(new runde(1, "Hvad lyder anderledes?", this));
@@ -24,13 +34,33 @@ void setup() {
   startbg = loadImage ("Startbaggrund.png");
   spilbg = loadImage ("Spilbaggrund.png");
   start_hej = minim.loadFile("start_hej.mp3");
- // hvilket_ord = minim.loadFile("hvilket_ord.mp3");
 }
 
 void draw() {
+  // Arduino
+  if (myPort.available() > 0) {
+    dataWemos = myPort.readStringUntil ('\n');
+    println("Received: " + dataWemos);
+    if (dataWemos != null) {
+      if (dataWemos.charAt(3) == '#') {
+        kortNum = dataWemos.substring(5, dataWemos.length()-2);
+        kortNumTid = (millis()+5000);
+      } else if (dataWemos.charAt(3) == '@') {
+        kortNum = dataWemos.substring(4, dataWemos.length()-2);
+        kortNumTid = (millis()+5000);
+      } 
+    }
+  }
+
+  //  println(kortNumTid + " : " + (millis()+5000));
+  if (kortNumTid < millis() && int(kortNum) != 0) {
+    kortNum = "Time Out!";
+    kortNumTid = 0;
+  }
+  println(kortNum);
+  // ikke arduino
   if (Spil1) {
     background(spilbg);
-  //  hvilket_ord.play();
     fill(0);
     text(score, width/2-100, 20); // Display af score // Den tæller opad så længe der står rigtigt
     text("ud af 4", width/2+20, 20);
@@ -91,7 +121,7 @@ void keyPressed() {
 void mouseClicked() {
   for (runde r : runder) {
     if (r.rno == currRound) {
-      if (r.hoverChoice() == 3) {
+      if (r.hoverChoice() == 3 || int(kortNum) == 1) { //jeg tester om man kan svare rigtigt ved at bruge chip1, det kan man ikke...
         r.point = true;
         score++;
       }

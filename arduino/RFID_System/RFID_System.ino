@@ -52,40 +52,40 @@ void loop() {
       tag.toUpperCase();
       if (tag.substring(1) == tagUID1) {
         tagOLD = tag;
-        Serial.println(F("1f1"));
+        Serial.println(F("1f1#01"));
       } else if (tag.substring(1) == tagUID2) {
         tagOLD = tag;
-        Serial.println(F("1f2"));
+        Serial.println(F("1f2#02"));
       } else if (tag.substring(1) == tagUID3) {
         tagOLD = tag;
-        Serial.println(F("1c"));
+        Serial.println(F("a1c#03"));
         } else if (tag.substring(1) == tagUID4) {
         tagOLD = tag;
-        Serial.println(F("2f1"));
+        Serial.println(F("2f1#04"));
       } else if (tag.substring(1) == tagUID5) {
         tagOLD = tag;
-        Serial.println(F("2F2"));
+        Serial.println(F("2F2#05"));
         } else if (tag.substring(1) == tagUID6) {
         tagOLD = tag;
-        Serial.println(F("2C"));
+        Serial.println(F("a2C#06"));
       } else if (tag.substring(1) == tagUID7) {
         tagOLD = tag;
-        Serial.println(F("3F1"));
+        Serial.println(F("3F1#07"));
         } else if (tag.substring(1) == tagUID8) {
         tagOLD = tag;
-        Serial.println(F("3F2"));
+        Serial.println(F("3F2#08"));
       } else if (tag.substring(1) == tagUID9) {
         tagOLD = tag;
-        Serial.println(F("3C"));
+        Serial.println(F("a3C#09"));
         } else if (tag.substring(1) == tagUID10) {
         tagOLD = tag;
-        Serial.println(F("4F1"));
+        Serial.println(F("4F1@10"));
       } else if (tag.substring(1) == tagUID11) {
         tagOLD = tag;
-        Serial.println(F("4F2"));
+        Serial.println(F("4F2@11"));
         } else if (tag.substring(1) == tagUID12) {
         tagOLD = tag;
-        Serial.println(F("4C"));
+        Serial.println(F("a4C@12"));
       } else if (tagOLD.substring(1) != tag.substring(1)) {
         tagOLD = tag;
         Serial.println(F("Found Wrong Tag!"));
