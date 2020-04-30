@@ -10,22 +10,27 @@ Boolean Spil2 = false;
 Boolean Start = true; 
 int score = 0;
 boolean point = false;
+AudioPlayer start_hej;
 
 void setup() {
   fullScreen(P2D);
+  minim = new Minim(this);
   runder = new ArrayList<runde>();
-  runder.add(new runde(1, "Hvilket ord lyder anderledes?", this));
-  runder.add(new runde(2, "Hvilket ord lyder anderledes?", this));
-  runder.add(new runde(3, "Hvilket ord lyder anderledes?", this));
-  runder.add(new runde(4, "Hvilket ord lyder anderledes?", this));
+  runder.add(new runde(1, "Hvad lyder anderledes?", this));
+  runder.add(new runde(2, "Hvad lyder anderledes?", this));
+  runder.add(new runde(3, "Hvad lyder anderledes?", this));
+  runder.add(new runde(4, "Hvad lyder anderledes?", this));
   currRound = round(random(1, 2));
   startbg = loadImage ("Startbaggrund.png");
   spilbg = loadImage ("Spilbaggrund.png");
+  start_hej = minim.loadFile("start_hej.mp3");
+ // hvilket_ord = minim.loadFile("hvilket_ord.mp3");
 }
 
 void draw() {
   if (Spil1) {
     background(spilbg);
+  //  hvilket_ord.play();
     fill(0);
     text(score, width/2-100, 20); // Display af score // Den tæller opad så længe der står rigtigt
     text("ud af 4", width/2+20, 20);
@@ -51,6 +56,7 @@ void draw() {
     background(startbg);
     fill(255);
     textMode(CENTER);
+    start_hej.play();
     textSize(48);
     text("Hej med dig, hvilket spil vil du gerne spille?", 450, 200);
     textSize(36);

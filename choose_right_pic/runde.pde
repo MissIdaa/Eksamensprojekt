@@ -4,7 +4,7 @@ class runde {
   PImage picf1, picf2, picc;
   IntList order = new IntList();
   boolean point = false;
-  AudioPlayer filef1, filef2, filec;
+  AudioPlayer filef1, filef2, filec, hvilket_ord, rigtigt;
   IntList player = new IntList();
   long previous = 0;
   long timestamp = 0;
@@ -28,8 +28,11 @@ class runde {
     filef1 = minim.loadFile(str(rno)+"f1.mp3");
     filef2 = minim.loadFile(str(rno)+"f2.mp3");
     filec = minim.loadFile(str(rno)+"c.mp3");
+    hvilket_ord = minim.loadFile("hvilket_ord.mp3");
+    rigtigt = minim.loadFile("rigtigt.mp3");
   }
   void render() {
+    hvilket_ord.play();
     if (timestamp == 0) {
       timestamp = millis();
     }
@@ -64,23 +67,6 @@ class runde {
         }
       }
     }
-
-
-    /*  void render() {
-     for (int i=0; i<order.size(); i++) {
-     float posx = 165 + i*width/3;
-     float posy = height/2;
-     if (order.get(i) == 1 && millis() >= previous + 1000) {
-     image(picf1, posx, posy);
-     filef1.play();
-     } else if (order.get(i) == 2 && millis() >= previous1 + 6000) {
-     image(picf2, posx, posy);
-     filef2.play();
-     } else if (order.get(i) == 3 && millis() >= previous2 + 8000) {
-     image(picc, posx, posy);
-     filec.play();
-     }
-     //     sound() */
     noStroke();
     fill(220, 220, 220, 100);
     if (mouseX < width/3) {
@@ -96,6 +82,7 @@ class runde {
     fill(0);
     if (point==true) {
       text("RIGTIGT!", width/2, height/4);
+      rigtigt.play();
     } else {
       text(otext, width/2, height/4);
     }
@@ -113,20 +100,3 @@ class runde {
     return returnno;
   }
 }
-
-/*  void sound() {
- for (int i=0; i<player.size(); i++) {
- if (player.get(i) == 1 && millis() >= previous + 1000) {
- filef1.play();
- } else if (player.get(i) == 2 && millis() >= previous1 + 6000) {
- filef2.play();
- } else if (player.get(i) == 3 && millis() >= previous2 + 8000) {
- filec.play();
- }
- } 
- } */
-
-/* if(soundA.isPlaying() == false && soundA.position() > 1 && soundB.isPlaying() == false){
- soundB.play();
- }
- */
