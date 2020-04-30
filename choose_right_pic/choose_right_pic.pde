@@ -33,7 +33,7 @@ void draw() {
       currRound = currRound % runder.size() + 1;
       cd = 180;
     }
-    println(currRound);
+    //println(currRound);
     for (runde r : runder) {
       if (r.rno == currRound) {
         r.render();

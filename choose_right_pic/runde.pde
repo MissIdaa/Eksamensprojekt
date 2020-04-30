@@ -7,15 +7,12 @@ class runde {
   AudioPlayer filef1, filef2, filec;
   IntList player = new IntList();
   long previous = 0;
-  long previous1 = 0;
-  long previous2 = 0;
-  int ran = int(random(0, 2));
-
+  long timestamp = 0;
+  boolean[] showi = {false, false, false};
+  boolean[] playi = {false, false, false};
 
   runde(int no, String opgavetext, PApplet p) {
     previous = millis();
-    previous1 = millis();
-    previous2 = millis();
     minim = new Minim(p);
     rno = no;
     otext = opgavetext;
@@ -31,58 +28,39 @@ class runde {
     filef1 = minim.loadFile(str(rno)+"f1.mp3");
     filef2 = minim.loadFile(str(rno)+"f2.mp3");
     filec = minim.loadFile(str(rno)+"c.mp3");
-
-    player.append(1);
-    player.append(2);
-    player.append(3);
-    player.shuffle();
   }
   void render() {
-    if (ran == 0) {
-      for (int i=0; i<order.size(); i++) {
-        float posx = 165 + i*width/3;
-        float posy = height/2;
-        if (order.get(i) == 1 && millis() >= previous + 1000) {
-          image(picf1, posx, posy);
-          filef1.play();
-        } else if (order.get(i) == 2 && millis() >= previous1 + 6000) {
-          image(picf2, posx, posy);
-          filef2.play();
-        } else if (order.get(i) == 3 && millis() >= previous2 + 8000) {
-          image(picc, posx, posy);
-          filec.play();
-        }
+    if (timestamp == 0) {
+      timestamp = millis();
+    }
+    for ( int j=0; j < 3; j++) {
+      if (millis() > timestamp + 2000*(j+1) && !showi[j]) {
+        showi[j] = true;
+        playi[j] = true;
       }
     }
-    if (ran == 1) {
-      for (int i=0; i<order.size(); i++) {
-        float posx = 165 + i*width/3;
-        float posy = height/2;
-        if (order.get(i) == 2 && millis() >= previous1 + 1000) {
-          image(picf2, posx, posy);
-          filef2.play();
-        } else if (order.get(i) == 3 && millis() >= previous2 + 6000) {
-          image(picc, posx, posy);
-          filec.play();
-        } else if (order.get(i) == 1 && millis() >= previous + 8000) {
+    for (int i=0; i < order.size(); i++) {
+      float posx = 165 + i*width/3;
+      float posy = height/2;
+      if (showi[i]) {
+        if (order.get(i) == 1) {
           image(picf1, posx, posy);
-          filef1.play();
-        }
-      }
-    }
-    if (ran == 2) {
-      for (int i=0; i<order.size(); i++) {
-        float posx = 165 + i*width/3;
-        float posy = height/2;
-        if (order.get(i) == 3 && millis() >= previous2 + 1000) {
-          image(picc, posx, posy);
-          filec.play();
-        } else if (order.get(i) == 1 && millis() >= previous + 6000) {
-          image(picf1, posx, posy);
-          filef1.play();
-        } else if (order.get(i) == 2 && millis() >= previous1 + 8000) {
+          if (playi[i]) {
+            filef1.play();
+            playi[i] = false;
+          }
+        } else if (order.get(i) == 2) {
           image(picf2, posx, posy);
-          filef2.play();
+          if (playi[i]) {
+            filef2.play();
+            playi[i] = false;
+          }
+        } else if (order.get(i) == 3) {
+          image(picc, posx, posy);
+          if (playi[i]) {
+            filec.play();
+            playi[i] = false;
+          }
         }
       }
     }
