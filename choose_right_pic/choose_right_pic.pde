@@ -79,6 +79,7 @@ void draw() {
     for (runde r : runder) {
       if (r.rno == currRound) {
         r.render();
+        RFID();
         if (r.point) {
           cd -= 1;
         }
