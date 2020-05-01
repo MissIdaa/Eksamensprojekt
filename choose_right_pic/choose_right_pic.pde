@@ -1,7 +1,11 @@
+// Billeder
 PImage startbg;
 PImage spilbg;
+// Lyd
 import ddf.minim.*;
 Minim minim;
+AudioPlayer start_hej;
+
 ArrayList<runde> runder;
 int currRound;
 int cd = 180;
@@ -10,21 +14,22 @@ Boolean Spil2 = false;
 Boolean Start = true; 
 int score = 0;
 boolean point = false;
-AudioPlayer start_hej;
-
+// Arduino
 import processing.serial.*;
-
 Serial myPort;
 String dataWemos = "Intet endnu";
 String kortNum = "Intet endnu";
 int kortNumTid = 0;
 
+// Her startes programmet!
 void setup() {
   fullScreen(P2D);
   String portName = Serial.list() [0];
   //println("Proever: " + portName);
+  // Arduino
   myPort = new Serial(this, portName, 115200);
   minim = new Minim(this);
+  //Runderne
   runder = new ArrayList<runde>();
   runder.add(new runde(1, "Hvad lyder anderledes?", this));
   runder.add(new runde(2, "Hvad lyder anderledes?", this));
@@ -48,7 +53,7 @@ void draw() {
       } else if (dataWemos.charAt(3) == '@') {
         kortNum = dataWemos.substring(4, dataWemos.length()-2);
         kortNumTid = (millis()+5000);
-      } 
+      }
     }
   }
 
@@ -57,8 +62,8 @@ void draw() {
     kortNum = "Time Out!";
     kortNumTid = 0;
   }
-  println(kortNum);
-  // ikke arduino
+  println(kortNum); 
+  // Spil 1
   if (Spil1) {
     background(spilbg);
     fill(0);
@@ -78,10 +83,12 @@ void draw() {
       }
     }
   }
+  // Spil 2
   if (Spil2) {
     background(spilbg);
     text("Spil 2", 800, 200);
   }
+  // Startskærm
   if (Start) {
     background(startbg);
     fill(255);
@@ -97,7 +104,7 @@ void draw() {
     text("Spil 2", 1180, 610);
   }
 }
-
+// Piletaster på startskærmen og mellemrum
 void keyPressed() {
   if (Start) {
     if (keyCode==LEFT) {
@@ -118,13 +125,19 @@ void keyPressed() {
   }
 }
 
+// Valg af svar
 void mouseClicked() {
   for (runde r : runder) {
     if (r.rno == currRound) {
-      if (r.hoverChoice() == 3 || int(kortNum) == 1) { //jeg tester om man kan svare rigtigt ved at bruge chip1, det kan man ikke...
+      if (r.hoverChoice() == 3) { //jeg tester om man kan svare rigtigt ved at bruge chip1, det kan man ikke...
         r.point = true;
         score++;
       }
     }
   }
+}
+
+void RFID() {
+
+
 }

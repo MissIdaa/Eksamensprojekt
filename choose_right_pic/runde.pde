@@ -31,19 +31,20 @@ class runde {
     hvilket_ord = minim.loadFile("hvilket_ord.mp3");
     rigtigt = minim.loadFile("rigtigt.mp3");
   }
+  //En enkelt runde
   void render() {
     hvilket_ord.play();
-    if (timestamp == 0) {
-      timestamp = millis();
+    if (timestamp == 0) { //Her starter runden
+      timestamp = millis(); //Runden får en tid
     }
-    for ( int j=0; j < 3; j++) {
-      if (millis() > timestamp + 2000*(j+1) && !showi[j]) {
-        showi[j] = true;
-        playi[j] = true;
+    for ( int j=0; j < 3; j++) {  //
+      if (millis() > timestamp + 2000*(j+1) && !showi[j]) { //Laver delay mellem hver "spawn" af billede og lyd
+        showi[j] = true;  //Billedet gøres true
+        playi[j] = true;  //Lydfilen ligeledes
       }
     }
     for (int i=0; i < order.size(); i++) {
-      float posx = 165 + i*width/3;
+      float posx = 165 + i*width/3; // Placering af billederne
       float posy = height/2;
       if (showi[i]) {
         if (order.get(i) == 1) {
