@@ -12,6 +12,7 @@ int cd = 180;
 Boolean Spil1 = false;
 Boolean Spil2 = false;
 Boolean Start = true; 
+Boolean Spil1Slut = false;
 int score = 0;
 boolean point = false;
 // Arduino
@@ -24,6 +25,7 @@ int kortNumTid = 0;
 // Her startes programmet!
 void setup() {
   fullScreen(P2D);
+  textAlign(CENTER, CENTER);
   String portName = Serial.list() [0];
   //println("Proever: " + portName);
   // Arduino
@@ -57,7 +59,7 @@ void draw() {
     }
   }
 
-//println(kortNumTid + " : " + (millis()+10));
+//  println(kortNumTid + " : " + (millis()+10));
   if (kortNumTid < millis() && int(kortNum) != 0) {
     kortNum = "Time Out!";
     kortNumTid = 0;
@@ -92,17 +94,27 @@ void draw() {
   if (Start) {
     background(startbg);
     fill(255);
-    textMode(CENTER);
     start_hej.play();
     textSize(48);
-    text("Hej med dig, hvilket spil vil du gerne spille?", 450, 200);
+    text("Hej med dig, hvilket spil vil du gerne spille?", width/2, 200);
     textSize(36);
-    text("Venstre piletast for spil 1, højre for spil 2", 570, 275);
+    text("Venstre piletast for spil 1, højre for spil 2", width/2, 275);
     fill(255);
     textSize(80);
-    text("Spil 1", 530, 610);
-    text("Spil 2", 1180, 610);
+    text("Spil 1", width/4+50, 610);
+    text("Spil 2", width/4 + width/2 -50, 610);
   }
+  if (Spil1Slut) {
+    background(startbg);
+    textSize(72);
+    fill(255);
+    text("Du fik 4 ud af 4 rigtige! Godt klaret",width/2,height/2);
+}
+    if (score == 4) {
+    delay(2000);
+    Spil1 = false;
+    Spil1Slut = true;
+    }
 }
 // Piletaster på startskærmen og mellemrum
 void keyPressed() {

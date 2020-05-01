@@ -78,7 +78,7 @@ class runde {
       rect(2*width/3, 0, width/3, height);
     }
 
-    textAlign(CENTER, CENTER);
+
     textSize(50);
     fill(0);
     if (point==true) {
@@ -103,7 +103,7 @@ class runde {
   int chipCheck() {
     int returnno = 0;  
     if (int(kortNum) == 3 || int(kortNum) == 6 ||int(kortNum) == 9 ||int(kortNum) == 12) {
-    returnno = 3;
+      returnno = 3;
     } else {
       returnno = 0;
     }
