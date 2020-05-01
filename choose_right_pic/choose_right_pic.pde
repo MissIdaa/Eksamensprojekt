@@ -57,7 +57,7 @@ void draw() {
     }
   }
 
-  //  println(kortNumTid + " : " + (millis()+5000));
+//println(kortNumTid + " : " + (millis()+10));
   if (kortNumTid < millis() && int(kortNum) != 0) {
     kortNum = "Time Out!";
     kortNumTid = 0;
@@ -129,7 +129,7 @@ void keyPressed() {
 void mouseClicked() {
   for (runde r : runder) {
     if (r.rno == currRound) {
-      if (r.hoverChoice() == 3) { //jeg tester om man kan svare rigtigt ved at bruge chip1, det kan man ikke...
+      if (r.hoverChoice() == 3) {
         r.point = true;
         score++;
       }
@@ -138,6 +138,10 @@ void mouseClicked() {
 }
 
 void RFID() {
-
-
+  for ( runde r : runder) {
+    if (r.chipCheck() == 3) {
+      r.point = true;
+      score++;
+    }
+  }
 }
