@@ -51,10 +51,10 @@ void draw() {
     if (dataWemos != null) {
       if (dataWemos.charAt(3) == '#') {
         kortNum = dataWemos.substring(5, dataWemos.length()-2);
-        kortNumTid = (millis()+5000);
+        kortNumTid = (millis()+10);
       } else if (dataWemos.charAt(3) == '@') {
         kortNum = dataWemos.substring(4, dataWemos.length()-2);
-        kortNumTid = (millis()+5000);
+        kortNumTid = (millis()+10);
       }
     }
   }
@@ -155,6 +155,7 @@ void RFID() {
     if (r.chipCheck() == 3) {
       r.point = true;
       score++;
+      r.point = false;
     }
   }
 }
