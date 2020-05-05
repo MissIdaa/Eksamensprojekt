@@ -1,10 +1,9 @@
 // Billeder
-PImage startbg;
-PImage spilbg;
+PImage startbg, spilbg, intro, help;
 // Lyd
 import ddf.minim.*;
 Minim minim;
-AudioPlayer start_hej;
+AudioPlayer start_hej, helps, intros, tilbage;
 
 ArrayList<runde> runder;
 int currRound;
@@ -12,9 +11,10 @@ int cd = 180;
 Boolean Spil1 = false;
 Boolean Spil2 = false;
 Boolean Start = true; 
+Boolean Intro1 = false;
+Boolean Help1 = false;
 Boolean Spil1Slut = false;
 int score = 0;
-boolean point = false;
 // Arduino
 import processing.serial.*;
 Serial myPort;
@@ -37,10 +37,15 @@ void setup() {
   runder.add(new runde(2, "Hvad lyder anderledes?", this));
   runder.add(new runde(3, "Hvad lyder anderledes?", this));
   runder.add(new runde(4, "Hvad lyder anderledes?", this));
-  currRound = round(random(1, 2));
+  currRound = int(random(4))+1;
   startbg = loadImage ("Startbaggrund.png");
   spilbg = loadImage ("Spilbaggrund.png");
+  intro = loadImage ("intro.png");
+  help = loadImage ("help.png");
   start_hej = minim.loadFile("start_hej.mp3");
+  helps = minim.loadFile("help.mp3");
+  intros = minim.loadFile("intro.mp3");
+  tilbage = minim.loadFile("tilbage.mp3");
 }
 
 void draw() {
@@ -59,7 +64,7 @@ void draw() {
     }
   }
 
-//  println(kortNumTid + " : " + (millis()+10));
+  //  println(kortNumTid + " : " + (millis()+10));
   if (kortNumTid < millis() && int(kortNum) != 0) {
     kortNum = "Time Out!";
     kortNumTid = 0;
@@ -69,20 +74,30 @@ void draw() {
   if (Spil1) {
     background(spilbg);
     fill(0);
-    text(score, width/2-100, 20); // Display af score // Den tæller opad så længe der står rigtigt
+    text(score, width/2-100, 20); // Display af score
     text("ud af 4", width/2+20, 20);
     if (cd == 0) {            
-      currRound = currRound % runder.size() + 1;
+      boolean choosing = true;
+      int testRound = 1000;
+      while (choosing) {
+        testRound = int(random(4))+1;
+        for (runde r : runder) {
+          if (r.rno == testRound && r.point == "not") {
+            choosing = false;
+          }
+        }
+      }
+      currRound = testRound;
       cd = 180;
     }
     //println(currRound);
     for (runde r : runder) {
       if (r.rno == currRound) {
         r.render();
-        RFID();
-        if (r.point) {
+        if (r.point == "rigtigt" || r.point == "forkert") {
           cd -= 1;
         }
+        RFID();
       }
     }
   }
@@ -102,27 +117,42 @@ void draw() {
     text("Venstre piletast for spil 1, højre for spil 2", width/2, 275);
     fill(255);
     textSize(80);
-    text("Spil 1", width/4+50, 610);
-    text("Spil 2", width/4 + width/2 -50, 610);
+    text("Spil 1", width/4+250, 450);
+    text("Spil 2", width/4 + width/2 -250, 450);
   }
   if (Spil1Slut) {
     background(startbg);
     textSize(72);
     fill(255);
-    text("Du fik 4 ud af 4 rigtige! Godt klaret",width/2,height/2);
-}
-    if (score == 4) {
+    text("Du fik "+str(score)+" ud af 4 rigtige! Godt klaret", width/2, height/2-250);
+  }
+  boolean slut = true;
+  for (runde r : runder) {
+    if (r.point == "not") {
+      slut = false;
+    }
+  }
+  if (slut) {
     delay(2000);
     Spil1 = false;
     Spil1Slut = true;
-    }
+  }
+  if (Help1) {
+    background(help);
+    helps.play();
+  }
+  if (Intro1) {
+    background(intro);
+    intros.play();
+  }
 }
 // Piletaster på startskærmen og mellemrum
 void keyPressed() {
   if (Start) {
     if (keyCode==LEFT) {
-      Spil1 = true;
+      Intro1 = true;
       Start = false;
+      Spil1 = false;
     }
   }
   if (Start) {
@@ -131,10 +161,30 @@ void keyPressed() {
       Start = false;
     }
   }
-  if (keyCode==' ') {
-    Spil1 = false; 
-    Spil2 = false;
-    Start = true;
+  if (Spil1) {
+    if (keyCode==' ') {
+      Spil1 = false; 
+      Spil2 = false;
+      Start = true;
+    }
+  }
+  if (Intro1) {
+    if (keyCode==DOWN) {
+      Intro1 = false;
+      Help1 = true;
+    }
+  }
+  if (Intro1) {
+    if (keyCode==UP) {
+      Intro1 = false;
+      Spil1 = true;
+    }
+  } 
+  if (Help1) {
+    if (keyCode==' ') {
+      Intro1 = true;
+      Help1 = false;
+    }
   }
 }
 
@@ -143,8 +193,11 @@ void mouseClicked() {
   for (runde r : runder) {
     if (r.rno == currRound) {
       if (r.hoverChoice() == 3) {
-        r.point = true;
+        r.point = "rigtigt";
         score++;
+      }
+      if (r.hoverChoice() != 3) {
+        r.point = "forkert";
       }
     }
   }
@@ -152,10 +205,14 @@ void mouseClicked() {
 
 void RFID() {
   for ( runde r : runder) {
-    if (r.chipCheck() == 3) {
-      r.point = true;
-      score++;
-      r.point = false;
+    if (r.rno == currRound) {
+      println(int(kortNum));
+      if ((currRound == 1 && int(kortNum)==3) || (currRound == 2 && int(kortNum)==6) || (currRound == 3 && int(kortNum)==9) || (currRound == 4 && int(kortNum)==12)) {
+        r.point = "rigtigt";
+        score ++;
+      } else if (int(kortNum) != 0) {
+        r.point = "forkert";
+      }
     }
   }
 }

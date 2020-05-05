@@ -3,8 +3,8 @@ class runde {
   String otext;
   PImage picf1, picf2, picc;
   IntList order = new IntList();
-  boolean point = false;
-  AudioPlayer filef1, filef2, filec, hvilket_ord, rigtigt;
+  String point = "not";
+  AudioPlayer filef1, filef2, filec, hvilket_ord, rigtigt, forkert;
   IntList player = new IntList();
   long previous = 0;
   long timestamp = 0;
@@ -30,6 +30,7 @@ class runde {
     filec = minim.loadFile(str(rno)+"c.mp3");
     hvilket_ord = minim.loadFile("hvilket_ord.mp3");
     rigtigt = minim.loadFile("rigtigt.mp3");
+    forkert = minim.loadFile("ov_igen.mp3");
   }
   //En enkelt runde
   void render() {
@@ -81,9 +82,12 @@ class runde {
 
     textSize(50);
     fill(0);
-    if (point==true) {
+    if (point == "rigtigt") {
       text("RIGTIGT!", width/2, height/4);
       rigtigt.play();
+    } else if (point == "forkert") {
+      text("FORKERT!", width/2, height/4);
+      forkert.play();
     } else {
       text(otext, width/2, height/4);
     }
@@ -97,15 +101,6 @@ class runde {
       returnno = order.get(1);
     } else {
       returnno = order.get(2);
-    }
-    return returnno;
-  }
-  int chipCheck() {
-    int returnno = 0;  
-    if (int(kortNum) == 3 || int(kortNum) == 6 ||int(kortNum) == 9 ||int(kortNum) == 12) {
-      returnno = 3;
-    } else {
-      returnno = 0;
     }
     return returnno;
   }
